@@ -1,14 +1,13 @@
-
+import NavigationMenuTab from "@/components/component/Navbar";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/toaster";
 import { Inter } from "next/font/google";
-import { ThemeProvider } from "@/components/theme-provider"
-import NavigationMenuTab from '@/components/component/Navbar';
 
 const inter = Inter({ subsets: ["latin"] });
 
-
 export default function RootLayout({
   children,
-  pageTitle
+  pageTitle,
 }: Readonly<{
   children: React.ReactNode;
   pageTitle: string;
@@ -22,6 +21,7 @@ export default function RootLayout({
     >
       <NavigationMenuTab />
       {children}
+      <Toaster />
     </ThemeProvider>
   );
 }

@@ -114,9 +114,9 @@ export default function NavigationMenuTab() {
                         </NavigationMenuContent>
                     </NavigationMenuItem>
                     <NavigationMenuItem>
-                        <Link href="/docs" legacyBehavior passHref>
+                        <Link href="/signup" legacyBehavior passHref>
                             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                                Documentation
+                                Sign up
                             </NavigationMenuLink>
                         </Link>
                     </NavigationMenuItem>
