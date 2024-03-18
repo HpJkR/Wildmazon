@@ -1,0 +1,9 @@
+query GetProductById($productId: Float!) {
+  getProductById(productId: $productId) {
+    id
+    name
+    description
+    picture
+    price
+  }
+}
