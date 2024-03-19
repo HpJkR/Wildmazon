@@ -14,7 +14,6 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { useSignupMutation } from "@/graphql/generated/schema";
 import { FormEvent, useState } from "react";
-import Layout from "../components/layout";
 
 function validatePassword(p: string) {
   let errors = [];
@@ -30,7 +29,11 @@ function validatePassword(p: string) {
   return errors;
 }
 
-export default function Signup() {
+export default function SigninForm({
+  handleLoginAccount,
+}: {
+  handleLoginAccount: () => void;
+}) {
   const [error, setError] = useState("");
   const [createUser] = useSignupMutation();
   const { toast } = useToast();
@@ -81,7 +84,7 @@ export default function Signup() {
   };
 
   return (
-    <Layout pageTitle="Create an account">
+    <>
       <form
         className="h-full flex justify-center items-center"
         onSubmit={handleSubmit}
@@ -102,7 +105,7 @@ export default function Signup() {
                 name="email"
                 id="email"
                 autoComplete=""
-                className="input input-bordered w-full max-w-xs"
+                className="input input-bordered w-full"
               />
             </div>
             <div className="grid gap-2">
@@ -114,7 +117,7 @@ export default function Signup() {
                 minLength={2}
                 maxLength={30}
                 required
-                className="input input-bordered w-full max-w-xs"
+                className="input input-bordered w-full"
               />
             </div>
             <div className="grid gap-2">
@@ -124,7 +127,7 @@ export default function Signup() {
                 name="password"
                 id="password"
                 required
-                className="input input-bordered w-full max-w-xs"
+                className="input input-bordered w-full"
               />
             </div>
             <div className="grid gap-2">
@@ -134,15 +137,23 @@ export default function Signup() {
                 name="passwordConfirmation"
                 id="passwordConfirmation"
                 required
-                className="input input-bordered w-full max-w-xs"
+                className="input input-bordered w-full"
               />
             </div>
           </CardContent>
-          <CardFooter>
+          <CardFooter className="flex-col gap-2">
             <Button className="w-full">Create account</Button>
+            <Button
+              className="w-full"
+              variant="secondary"
+              onClick={handleLoginAccount}
+            >
+              Already have an account?
+              <span className="ml-1 underline">Log in</span>
+            </Button>
           </CardFooter>
         </Card>
       </form>
-    </Layout>
+    </>
   );
 }
