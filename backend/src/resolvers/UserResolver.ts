@@ -29,7 +29,6 @@ class UserResolver {
   }
 
   @Mutation(() => String)
-  // async login(@Arg("data") data: LoginInput) {
   async login(@Arg("data") data: LoginInput, @Ctx() ctx: Context) {
     const existingUser = await User.findOneBy({ email: data.email });
     if (existingUser === null) {
