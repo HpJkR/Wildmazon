@@ -12,13 +12,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
-import { useSignupMutation } from "@/graphql/generated/schema";
+import { useLoginMutation, useProfileQuery } from "@/graphql/generated/schema";
 import { FormEvent, useState } from "react";
 
 export default function LoginForm({ handleSignUpAccount }: { handleSignUpAccount: () => void }) {
   const [error, setError] = useState("");
-  const [login] = useSignupMutation();
+  const [login] = useLoginMutation();
   const { toast } = useToast();
+  const { data: currentUser, client } = useProfileQuery({
+    errorPolicy: "ignore",
+  });
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     setError("");
@@ -26,31 +29,25 @@ export default function LoginForm({ handleSignUpAccount }: { handleSignUpAccount
     const formData = new FormData(e.target as HTMLFormElement);
     const formJSON: any = Object.fromEntries(formData.entries());
 
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleString("en-EN");
+    
     try {
-      const res = await login({ variables: { newUserData: formJSON } });
-      console.log({ res });
-      const currentDate = new Date();
-      const formattedDate = currentDate.toLocaleString("en-EN");
-
+      const res = await login({ variables: { data: formJSON } });
+      
       toast({
         title: "Logged in with success",
         description: `On ${formattedDate}`,
       });
     } catch (e: any) {
-      // if (e.message === "EMAIL_ALREADY_TAKEN") {
-      //   setError("Cet e-mail est déjà pris");
-      // } else {
-      //   setError("Une erreur est survenue");
-      // }
-      setError("An error has occured");
+      toast({
+        title: "An error occurred while connecting",
+        description: `On ${formattedDate}`,
+      });
+    } 
+    finally {
+      client.resetStore()
     }
-    const currentDate = new Date();
-    const formattedDate = currentDate.toLocaleString("en-EN");
-
-    toast({
-      title: "An error occurred while connecting",
-      description: `On ${formattedDate}`,
-    });
   };
 
   return (
