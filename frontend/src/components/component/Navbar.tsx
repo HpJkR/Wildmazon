@@ -61,7 +61,7 @@ export default function NavigationMenuTab() {
         <NavigationMenuList>
           <NavigationMenuItem>
             <Link href={"/"}>
-              <NavigationMenuTrigger>Accueil</NavigationMenuTrigger>
+              <NavigationMenuTrigger>Home</NavigationMenuTrigger>
             </Link>
 
             <NavigationMenuContent>
