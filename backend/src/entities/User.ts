@@ -34,7 +34,10 @@ class User extends BaseEntity {
   @Column()
   hashedPassword: string;
 
-  @Column({ default: "https://icons.veryicon.com/png/o/miscellaneous/standard/avatar-15.png" })
+  @Column({
+    default:
+      "https://icons.veryicon.com/png/o/miscellaneous/standard/avatar-15.png",
+  })
   @Field()
   avatar: string;
 }
@@ -49,8 +52,19 @@ export class NewUserInput {
   @Length(2, 30)
   nickname: string;
 
-  @Field({nullable:true})
+  @Field({ nullable: true })
   avatar?: string;
+
+  @IsStrongPassword()
+  @Field()
+  password: string;
+}
+
+@InputType()
+export class LoginInput {
+  @IsEmail()
+  @Field()
+  email: string;
 
   @IsStrongPassword()
   @Field()
