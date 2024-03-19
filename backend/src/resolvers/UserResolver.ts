@@ -34,8 +34,8 @@ class UserResolver {
       throw new GraphQLError("Invalid credentials");
     }
     const isPasswordValid = await verify(
-      data.password,
-      existingUser.hashedPassword
+      existingUser.hashedPassword,
+      data.password
     );
     if (!isPasswordValid) {
       throw new GraphQLError("Invalid credentials");
