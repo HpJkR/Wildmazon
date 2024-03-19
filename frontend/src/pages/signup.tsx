@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -35,34 +36,46 @@ export default function Signup() {
   const { toast } = useToast();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    console.log("")
     setError("");
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
     const formJSON: any = Object.fromEntries(formData.entries());
 
     const errors = validatePassword(formJSON.password);
-    if (errors.length > 0) return setError(errors.join("\n"));
-    if (formJSON.password !== formJSON.passwordConfirmation)
-      return setError("les mots de passe ne correspondent pas");
+    if (errors.length > 0) {
+      return setError(errors.join("\n"));
+    }
 
-    // do not send confirmation since it's checked on the frontend
+    if (formJSON.password !== formJSON.passwordConfirmation) {
+      return setError("Les mots de passe ne correspondent pas");
+    }
+
+    // Ne pas envoyer la confirmation puisqu'elle est vérifiée côté client
     delete formJSON.passwordConfirmation;
 
     try {
       const res = await createUser({ variables: { newUserData: formJSON } });
       console.log({ res });
+      const currentDate = new Date();
+      const formattedDate = currentDate.toLocaleString("fr-FR");
+
       toast({
         title: "Compte créé avec succès",
-        description: "Friday, February 10, 2023 at 5:57 PM",
+        description: `Le ${formattedDate}`,
       });
     } catch (e: any) {
-      if (e.message === "EMAIL_ALREADY_TAKEN")
+      if (e.message === "EMAIL_ALREADY_TAKEN") {
         setError("Cet e-mail est déjà pris");
-      else setError("une erreur est survenue");
+      } else {
+        setError("Une erreur est survenue");
+      }
+
+      const currentDate = new Date();
+      const formattedDate = currentDate.toLocaleString("fr-FR");
+
       toast({
         title: "Erreur dans la création de votre compte",
-        description: "Friday, February 10, 2023 at 5:57 PM",
+        description: `Le ${formattedDate}`,
       });
     }
   };
@@ -110,6 +123,16 @@ export default function Signup() {
                 type="password"
                 name="password"
                 id="password"
+                required
+                className="input input-bordered w-full max-w-xs"
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="passwordConfirmation">Confirmation</Label>
+              <Input
+                type="password"
+                name="passwordConfirmation"
+                id="passwordConfirmation"
                 required
                 className="input input-bordered w-full max-w-xs"
               />
