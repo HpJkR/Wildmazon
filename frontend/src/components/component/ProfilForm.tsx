@@ -77,9 +77,9 @@ export default function ProfileForm() {
                     name="name"
                     render={({ field }) => (
                         <FormItem className='mt-5'>
-                            <FormLabel>Nom du produit</FormLabel>
+                            <FormLabel>Name</FormLabel>
                             <FormControl>
-                                <Input placeholder="Nom du produit..." {...field} />
+                                <Input placeholder="Product name..." {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -104,9 +104,9 @@ export default function ProfileForm() {
                     name="prix"
                     render={({ field }) => (
                         <FormItem className=''>
-                            <FormLabel>Prix</FormLabel>
+                            <FormLabel>Price</FormLabel>
                             <FormControl>
-                                <Input placeholder="Prix..." type='number' {...field} />
+                                <Input placeholder="Price..." type='number' {...field} />
                             </FormControl>
 
                             <FormMessage />
@@ -120,7 +120,7 @@ export default function ProfileForm() {
                         <FormItem className=''>
                             <FormLabel>Image</FormLabel>
                             <FormControl>
-                                <Input placeholder="Lien de l'image..." {...field} />
+                                <Input placeholder="Image name..." {...field} />
                             </FormControl>
 
                             <FormMessage />

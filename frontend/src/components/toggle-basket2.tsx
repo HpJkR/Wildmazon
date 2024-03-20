@@ -23,13 +23,12 @@ export default function ToggleBasket() {
     <Sheet >
       <SheetTrigger>
         <Button variant="outline">
-          <ShoppingCartIcon className="mr-2 h-4 w-4" />
-          Panier
+          <ShoppingCartIcon className="h-4 w-4" />
         </Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Mon panier</SheetTitle>
+          <SheetTitle>My basket</SheetTitle>
           <SheetDescription>
             <TableBasket />
           </SheetDescription>
