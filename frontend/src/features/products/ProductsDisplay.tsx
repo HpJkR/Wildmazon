@@ -1,5 +1,5 @@
 import CardWithForm from "@/components/component/Card";
-import { useProductsQuery } from "@/graphql/generated/schema";
+import { useProductsQuery } from "../../graphql/queries/generated/GetProducts";
 
 export default function ProductsDisplay() {
   const { data, loading, error, refetch } = useProductsQuery();

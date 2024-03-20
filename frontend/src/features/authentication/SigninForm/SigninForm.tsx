@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
-import { useSignupMutation } from "@/graphql/generated/schema";
+import { useSignupMutation } from "@/graphql/mutations/generated/Signup";
 import { FormEvent, useState } from "react";
 
 function validatePassword(p: string) {

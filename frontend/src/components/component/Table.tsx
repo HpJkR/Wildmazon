@@ -7,10 +7,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  useDeleteProductMutation,
-  useProductsQuery,
-} from "@/graphql/generated/schema";
+import { useDeleteProductMutation } from "@/graphql/mutations/generated/DeleteProduct";
+import { useProductsQuery } from "@/graphql/queries/generated/GetProducts";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
 export default function TableComponent() {

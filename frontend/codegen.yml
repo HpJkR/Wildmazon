@@ -2,8 +2,23 @@ overwrite: true
 schema: "http://localhost:4001"
 documents: "**/*.{gql,graphql}"
 generates:
-  ./src/graphql/generated/schema.ts:
+  "./src/graphql/models/generated/schema.ts":
     plugins:
-      - "typescript"
-      - "typescript-operations"
-      - "typescript-react-apollo"
+    - add:
+        content: "/* tslint:disable */ /* eslint-disable */"
+    - typescript
+  "./src/graphql/":
+    preset: near-operation-file
+    presetConfig:
+      baseTypesPath: "./models/generated/schema.ts"
+      extension: ".tsx"
+      folder: "./generated"
+    documents:
+    - "./src/graphql/mutations/*.graphql"
+    - "./src/graphql/queries/*.graphql"
+    - "./src/graphql/fragments/*.graphql"
+    plugins:
+    - add:
+        content: "/* tslint:disable */ /* eslint-disable */"
+    - typescript-operations
+    - typescript-react-apollo

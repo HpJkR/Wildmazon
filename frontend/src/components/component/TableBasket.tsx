@@ -7,7 +7,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { useProductsQuery } from '@/graphql/generated/schema'
+import { useProductsQuery } from "../../graphql/queries/generated/GetProducts"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import { useEffect, useState } from "react"
 

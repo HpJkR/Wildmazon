@@ -12,10 +12,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
-import { useLoginMutation, useProfileQuery } from "@/graphql/generated/schema";
+import { useLoginMutation } from "@/graphql/mutations/generated/Login";
+import { useProfileQuery } from "@/graphql/queries/generated/GetProfile";
 import { FormEvent, useState } from "react";
 
-export default function LoginForm({ handleSignUpAccount }: { handleSignUpAccount: () => void }) {
+export default function LoginForm({
+  handleSignUpAccount,
+}: {
+  handleSignUpAccount: () => void;
+}) {
   const [error, setError] = useState("");
   const [login] = useLoginMutation();
   const { toast } = useToast();
@@ -31,10 +36,10 @@ export default function LoginForm({ handleSignUpAccount }: { handleSignUpAccount
 
     const currentDate = new Date();
     const formattedDate = currentDate.toLocaleString("en-EN");
-    
+
     try {
       const res = await login({ variables: { data: formJSON } });
-      
+
       toast({
         title: "Logged in with success",
         description: `On ${formattedDate}`,
@@ -44,9 +49,8 @@ export default function LoginForm({ handleSignUpAccount }: { handleSignUpAccount
         title: "An error occurred while connecting",
         description: `On ${formattedDate}`,
       });
-    } 
-    finally {
-      client.resetStore()
+    } finally {
+      client.resetStore();
     }
   };
 
