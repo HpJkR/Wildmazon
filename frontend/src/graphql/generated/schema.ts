@@ -15,11 +15,17 @@ export type Scalars = {
   Float: number;
 };
 
+export type LoginInput = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createProduct: Product;
   createUser: User;
   deleteProduct: Scalars['Boolean'];
+  login: Scalars['String'];
 };
 
 
@@ -35,6 +41,11 @@ export type MutationCreateUserArgs = {
 
 export type MutationDeleteProductArgs = {
   id: Scalars['Float'];
+};
+
+
+export type MutationLoginArgs = {
+  data: LoginInput;
 };
 
 export type NewUserInput = {
@@ -65,6 +76,7 @@ export type Query = {
   getProductById: Product;
   getUsers: Array<User>;
   products: Array<Product>;
+  profile: User;
 };
 
 
