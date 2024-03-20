@@ -1,5 +1,6 @@
 "use client";
 
+import DropdownNav from "@/features/navigation/profil/DropdownButton";
 import Link from "next/link";
 import * as React from "react";
 
@@ -12,7 +13,6 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 
@@ -116,18 +116,14 @@ export default function NavigationMenuTab() {
         </NavigationMenuList>
       </NavigationMenu>
       <div className="gap-4 flex justify-center items-center">
-        <ToggleBasket />
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <Link href="/authentication" legacyBehavior passHref>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  Log in
-                </NavigationMenuLink>
-              </Link>
+              <DropdownNav />
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
+        <ToggleBasket />
         <ModeToggle />
       </div>
     </div>
