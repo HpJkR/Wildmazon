@@ -7,7 +7,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { useProductsQuery } from '@/graphql/generated/schema'
+import { useProductsQuery } from "../../graphql/queries/generated/GetProducts"
 import { XMarkIcon } from "@heroicons/react/24/outline"
 import { useEffect, useState } from "react"
 
@@ -31,22 +31,22 @@ export default function TableBasket() {
         }
     }
 
-    if (loading) return <p>Chargement en cours...</p>;
-    if (error) return <p>Erreur : {error.message}</p>;
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error : {error.message}</p>;
 
     return (
         <>
             {basketProducts.length === 0 ? (
-                <p>Votre panier est vide.</p>
+                <p>Your basket is empty.</p>
             ) : (
                 <Table className="border rounded-md">
-                    <TableCaption>Liste des produits</TableCaption>
+                    <TableCaption>List of products</TableCaption>
                     <TableHeader>
                         <TableRow>
                             <TableHead>Image</TableHead>
-                            <TableHead>Produit</TableHead>
-                            <TableHead>Prix</TableHead>
-                            <TableHead>Qté</TableHead>
+                            <TableHead>Product</TableHead>
+                            <TableHead>Price</TableHead>
+                            <TableHead>Qty</TableHead>
                             <TableHead></TableHead>
                         </TableRow>
                     </TableHeader>

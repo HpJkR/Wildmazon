@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,9 +12,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
-import { useSignupMutation } from "@/graphql/generated/schema";
+import { useSignupMutation } from "@/graphql/mutations/generated/Signup";
 import { FormEvent, useState } from "react";
-import Layout from "../components/layout";
 
 function validatePassword(p: string) {
   let errors = [];
@@ -29,46 +29,62 @@ function validatePassword(p: string) {
   return errors;
 }
 
-export default function Signup() {
+export default function SigninForm({
+  handleLoginAccount,
+}: {
+  handleLoginAccount: () => void;
+}) {
   const [error, setError] = useState("");
   const [createUser] = useSignupMutation();
   const { toast } = useToast();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    console.log("")
     setError("");
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
     const formJSON: any = Object.fromEntries(formData.entries());
 
     const errors = validatePassword(formJSON.password);
-    if (errors.length > 0) return setError(errors.join("\n"));
-    if (formJSON.password !== formJSON.passwordConfirmation)
-      return setError("les mots de passe ne correspondent pas");
+    if (errors.length > 0) {
+      return setError(errors.join("\n"));
+    }
 
-    // do not send confirmation since it's checked on the frontend
+    if (formJSON.password !== formJSON.passwordConfirmation) {
+      return setError("Les mots de passe ne correspondent pas");
+    }
+
+    // Ne pas envoyer la confirmation puisqu'elle est vérifiée côté client
     delete formJSON.passwordConfirmation;
 
     try {
       const res = await createUser({ variables: { newUserData: formJSON } });
       console.log({ res });
+      const currentDate = new Date();
+      const formattedDate = currentDate.toLocaleString("fr-FR");
+
       toast({
         title: "Compte créé avec succès",
-        description: "Friday, February 10, 2023 at 5:57 PM",
+        description: `Le ${formattedDate}`,
       });
     } catch (e: any) {
-      if (e.message === "EMAIL_ALREADY_TAKEN")
+      if (e.message === "EMAIL_ALREADY_TAKEN") {
         setError("Cet e-mail est déjà pris");
-      else setError("une erreur est survenue");
+      } else {
+        setError("Une erreur est survenue");
+      }
+
+      const currentDate = new Date();
+      const formattedDate = currentDate.toLocaleString("fr-FR");
+
       toast({
         title: "Erreur dans la création de votre compte",
-        description: "Friday, February 10, 2023 at 5:57 PM",
+        description: `Le ${formattedDate}`,
       });
     }
   };
 
   return (
-    <Layout pageTitle="Create an account">
+    <>
       <form
         className="h-full flex justify-center items-center"
         onSubmit={handleSubmit}
@@ -89,7 +105,7 @@ export default function Signup() {
                 name="email"
                 id="email"
                 autoComplete=""
-                className="input input-bordered w-full max-w-xs"
+                className="input input-bordered w-full"
               />
             </div>
             <div className="grid gap-2">
@@ -101,7 +117,7 @@ export default function Signup() {
                 minLength={2}
                 maxLength={30}
                 required
-                className="input input-bordered w-full max-w-xs"
+                className="input input-bordered w-full"
               />
             </div>
             <div className="grid gap-2">
@@ -111,15 +127,33 @@ export default function Signup() {
                 name="password"
                 id="password"
                 required
-                className="input input-bordered w-full max-w-xs"
+                className="input input-bordered w-full"
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="passwordConfirmation">Confirmation</Label>
+              <Input
+                type="password"
+                name="passwordConfirmation"
+                id="passwordConfirmation"
+                required
+                className="input input-bordered w-full"
               />
             </div>
           </CardContent>
-          <CardFooter>
+          <CardFooter className="flex-col gap-2">
             <Button className="w-full">Create account</Button>
+            <Button
+              className="w-full"
+              variant="secondary"
+              onClick={handleLoginAccount}
+            >
+              Already have an account?
+              <span className="ml-1 underline">Log in</span>
+            </Button>
           </CardFooter>
         </Card>
       </form>
-    </Layout>
+    </>
   );
 }
