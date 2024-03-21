@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { useLoginMutation } from "@/graphql/mutations/generated/Login";
 import { useProfileQuery } from "@/graphql/queries/generated/GetProfile";
+import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
 
 export default function LoginForm({
@@ -21,6 +22,7 @@ export default function LoginForm({
 }: {
   handleSignUpAccount: () => void;
 }) {
+  const router = useRouter();
   const [error, setError] = useState("");
   const [login] = useLoginMutation();
   const { toast } = useToast();
@@ -44,6 +46,7 @@ export default function LoginForm({
         title: "Logged in with success",
         description: `On ${formattedDate}`,
       });
+      router.push("/");
     } catch (e: any) {
       toast({
         title: "An error occurred while connecting",

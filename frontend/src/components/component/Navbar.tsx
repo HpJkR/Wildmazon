@@ -1,6 +1,6 @@
 "use client";
 
-import DropdownNav from "@/features/navigation/profil/DropdownButton";
+import DropdownNav from "@/features/navigation/topNavbar/DropdownButton";
 import Link from "next/link";
 import * as React from "react";
 
@@ -14,6 +14,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import { useProfileQuery } from "@/graphql/queries/generated/GetProfile";
 import { cn } from "@/lib/utils";
 
 const components: { title: string; href: string; description: string }[] = [
@@ -55,6 +56,11 @@ const components: { title: string; href: string; description: string }[] = [
 ];
 
 export default function NavigationMenuTab() {
+  const { data: CurrentUser } = useProfileQuery({
+    errorPolicy: "ignore",
+  });
+  const username = CurrentUser ? CurrentUser.profile.nickname : null;
+
   return (
     <div className="flex justify-between">
       <NavigationMenu>
@@ -95,29 +101,39 @@ export default function NavigationMenuTab() {
               </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>
-          <NavigationMenuItem>
-            <Link href={"/admin"}>
-              <NavigationMenuTrigger>Admin</NavigationMenuTrigger>
-            </Link>
-            <NavigationMenuContent>
-              <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                {components.map((component) => (
-                  <ListItem
-                    key={component.title}
-                    title={component.title}
-                    href={component.href}
-                  >
-                    {component.description}
-                  </ListItem>
-                ))}
-              </ul>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
+
+          {CurrentUser && (
+            <NavigationMenuItem>
+              <Link href={"/admin"}>
+                <NavigationMenuTrigger>Admin</NavigationMenuTrigger>
+              </Link>
+              <NavigationMenuContent>
+                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                  {components.map((component) => (
+                    <ListItem
+                      key={component.title}
+                      title={component.title}
+                      href={component.href}
+                    >
+                      {component.description}
+                    </ListItem>
+                  ))}
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          )}
         </NavigationMenuList>
       </NavigationMenu>
       <div className="gap-4 flex justify-center items-center">
         <NavigationMenu>
           <NavigationMenuList>
+            <NavigationMenuItem className="mr-4">
+              {!CurrentUser ? (
+                <span></span>
+              ) : (
+                <span className="font-bold">{`Hello ${username}`}</span>
+              )}
+            </NavigationMenuItem>
             <NavigationMenuItem>
               <DropdownNav />
             </NavigationMenuItem>

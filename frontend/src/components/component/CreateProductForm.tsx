@@ -24,7 +24,7 @@ const formSchema = z.object({
   image: z.string().min(2).max(500),
 });
 
-export default function ProfileForm() {
+export default function CreateProductForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

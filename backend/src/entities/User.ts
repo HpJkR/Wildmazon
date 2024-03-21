@@ -12,6 +12,9 @@ import {
 @Entity()
 @ObjectType()
 class User extends BaseEntity {
+  static hashPassword(password: string): string | PromiseLike<string> {
+    throw new Error("Method not implemented.");
+  }
   password: string;
 
   @BeforeInsert()
@@ -35,8 +38,7 @@ class User extends BaseEntity {
   hashedPassword: string;
 
   @Column({
-    default:
-      "https://icons.veryicon.com/png/o/miscellaneous/standard/avatar-15.png",
+    default: "https://github.com/shadcn.png",
   })
   @Field()
   avatar: string;
@@ -58,6 +60,44 @@ export class NewUserInput {
   @IsStrongPassword()
   @Field()
   password: string;
+}
+
+// @InputType()
+// export class UpdateUserInput {
+//   static hashPassword(password: string): string | PromiseLike<string> {
+//     throw new Error("Method not implemented.");
+//   }
+//   password: string;
+
+//   @BeforeInsert()
+//   async hashPassword() {
+//     this.hashedPassword = await hash(this.password);
+//   }
+
+//   @Field({ nullable: true })
+//   @Length(2, 30)
+//   nickname?: string;
+
+//   @Field({ nullable: true })
+//   avatar?: string;
+
+//   @IsStrongPassword()
+//   @Field({ nullable: true })
+//   hashedPassword?: string;
+// }
+
+@InputType()
+export class UpdateUserInput {
+  @Field({ nullable: true })
+  @Length(2, 30)
+  nickname?: string;
+
+  @Field({ nullable: true })
+  avatar?: string;
+
+  @IsStrongPassword()
+  @Field({ nullable: true })
+  password?: string;
 }
 
 @InputType()
