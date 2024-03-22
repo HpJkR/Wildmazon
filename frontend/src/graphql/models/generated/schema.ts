@@ -25,6 +25,7 @@ export type Mutation = {
   deleteProduct: Scalars['Boolean'];
   login: Scalars['String'];
   logout: Scalars['Boolean'];
+  updatePassword: User;
   updateProfile: User;
 };
 
@@ -46,6 +47,11 @@ export type MutationDeleteProductArgs = {
 
 export type MutationLoginArgs = {
   data: LoginInput;
+};
+
+
+export type MutationUpdatePasswordArgs = {
+  data: UpdatePassword;
 };
 
 
@@ -87,6 +93,10 @@ export type Query = {
 
 export type QueryGetProductByIdArgs = {
   productId: Scalars['Float'];
+};
+
+export type UpdatePassword = {
+  password?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateUserInput = {

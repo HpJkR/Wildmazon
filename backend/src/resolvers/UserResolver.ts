@@ -6,6 +6,7 @@ import User, {
   LoginInput,
   NewUserInput,
   UpdateUserInput,
+  UpdatePassword,
 } from "../entities/User";
 import env from "../env";
 import { Context } from "../types";
@@ -71,6 +72,24 @@ class UserResolver {
       ctx.currentUser.avatar = data.avatar;
     if (data.nickname && data.nickname !== ctx.currentUser.nickname)
       ctx.currentUser.nickname = data.nickname;
+    if (data.password) {
+      // Hash the new password
+      const newPasswordHash = await hash(data.password);
+      // Update the hashedPassword field with the new hash
+      ctx.currentUser.hashedPassword = newPasswordHash;
+    }
+    return ctx.currentUser.save();
+  }
+
+  @Authorized()
+  @Mutation(() => User)
+  async updatePassword(
+    @Arg("data", { validate: true }) data: UpdatePassword,
+    @Ctx() ctx: Context
+  ) {
+    if (!ctx.currentUser)
+      throw new GraphQLError("You need to be logged in to update your profile");
+
     if (data.password) {
       // Hash the new password
       const newPasswordHash = await hash(data.password);

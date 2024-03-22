@@ -101,6 +101,13 @@ export class UpdateUserInput {
 }
 
 @InputType()
+export class UpdatePassword {
+  @IsStrongPassword()
+  @Field({ nullable: true })
+  password?: string;
+}
+
+@InputType()
 export class LoginInput {
   @IsEmail()
   @Field()

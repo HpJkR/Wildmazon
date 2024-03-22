@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { MouseEventHandler, ReactNode } from "react";
+import { ReactNode } from "react";
 
 export function Form(props: { inputObj: ProfilInfoTabsProps }) {
   return (
@@ -25,10 +25,7 @@ export function Form(props: { inputObj: ProfilInfoTabsProps }) {
       })}
       {props.inputObj.buttons.map((button: Button, index): ReactNode => {
         return (
-          <Button            key={index}
-            className="w-full mt-4"
-            onClick={button.click}
-          >
+          <Button key={index} className="w-full mt-4" onClick={button.click}>
             {button.text}
           </Button>
         );

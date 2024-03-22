@@ -5,12 +5,14 @@ import { useUpdateProfileMutation } from "@/graphql/mutations/generated/UpdatePr
 import { useProfileQuery } from "@/graphql/queries/generated/GetProfile";
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
-// import { ProfilInfoTabs } from "./profil-infoTabs";
+import Form from "@/components/component/Form";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export default function ProfilForm() {
   const router = useRouter();
   const [error, setError] = useState("");
-  // const [errors, setErrors]  useState("")
   const { toast } = useToast();
   const { data: currentUser, client } = useProfileQuery({
     errorPolicy: "ignore",
@@ -53,11 +55,50 @@ export default function ProfilForm() {
   };
 
   return (
-    <form
+    <Form
       className="h-full flex justify-left items-center"
       onSubmit={handleSubmit}
     >
-      {/* <ProfilInfoTabs currentUser={currentUser} /> */}
-    </form>
+      <div className="grid gap-2">
+        <Label htmlFor="username" className="mt-4">
+          Username
+        </Label>
+        <Input
+          required
+          type="text"
+          name="username"
+          id="username"
+          autoComplete=""
+          className="input input-bordered w-full"
+        />
+      </div>
+      <div className="grid gap-2">
+        <Label htmlFor="email" className="mt-4">
+          Email
+        </Label>
+        <Input
+          required
+          type="email"
+          name="email"
+          id="email"
+          autoComplete=""
+          className="input input-bordered w-full"
+        />
+      </div>
+      <div className="grid gap-2">
+        <Label htmlFor="password" className="mt-4">
+          Password
+        </Label>
+        <Input
+          required
+          type="password"
+          name="password"
+          id="password"
+          autoComplete=""
+          className="input input-bordered w-full"
+        />
+      </div>
+      <Button className="w-full mt-4">Save</Button>
+    </Form>
   );
 }
