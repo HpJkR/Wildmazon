@@ -1,6 +1,6 @@
 import { Separator } from "@/components/ui/separator";
 import SettingsLayout from "@/pages/settings/layout";
-import ProfileForm from "./test-form-zod";
+import { ProfilTabs } from "./profil/profil-info-tabs";
 
 export default function SettingsProfilePage() {
   return (
@@ -13,8 +13,7 @@ export default function SettingsProfilePage() {
           </p>
         </div>
         <Separator />
-        {/* <ProfileForm /> */}
-        <ProfileForm />
+        <ProfilTabs />
       </div>
     </SettingsLayout>
   );

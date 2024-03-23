@@ -4,30 +4,51 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { PasswordInput } from "@/components/component/PasswordInput";
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 import { useUpdatePasswordMutation } from "@/graphql/mutations/generated/UpdatePassword";
+import { useState } from "react";
 
 const formSchema = z.object({
-  currentPassword: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+  currentPassword: z.string().min(8, {
+    message: "Current password must be at least 8 characters long.",
   }),
-  newPassword: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
+  newPassword: z
+    .string()
+    .min(8, {
+      message: "New password must be at least 8 characters long.",
+    })
+    .regex(/^(?=.*[a-z])/, {
+      message: "New password must contain at least one lowercase letter.",
+    })
+    .regex(/^(?=.*[A-Z])/, {
+      message: "New password must contain at least one uppercase letter.",
+    })
+    .regex(/^(?=.*\d)/, {
+      message: "New password must contain at least one digit.",
+    })
+    .regex(/^(?=.*[@$!%*?&])/, {
+      message: "New password must contain at least one special character.",
+    }),
 });
 
 export default function ProfileForm() {
+  const [passwordErrors, setPasswordErrors] = useState<{
+    [key: string]: string[];
+  }>({
+    currentPassword: [],
+    newPassword: [],
+  });
+
   const currentDate = new Date();
   const formattedDate = currentDate.toLocaleString("en-EN");
   const [updatePassword] = useUpdatePasswordMutation();
@@ -41,11 +62,12 @@ export default function ProfileForm() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    if (values.currentPassword === values.newPassword){
+    if (values.currentPassword === values.newPassword) {
       return toast({
         title: "New password must be different from the current password.",
         description: `On ${formattedDate}`,
-      });}
+      });
+    }
     try {
       const data = await updatePassword({
         variables: { data: { password: values.newPassword } },
@@ -74,11 +96,8 @@ export default function ProfileForm() {
             <FormItem>
               <FormLabel>Current Password</FormLabel>
               <FormControl>
-                <Input placeholder="current password" {...field} />
+                <PasswordInput placeholder="Current password" {...field} />
               </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -90,12 +109,8 @@ export default function ProfileForm() {
             <FormItem>
               <FormLabel>New Password</FormLabel>
               <FormControl>
-                <Input placeholder="new password" {...field} />
+                <PasswordInput placeholder="New password" {...field} />
               </FormControl>
-
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}

@@ -1,5 +1,6 @@
 "use client";
 
+import { PasswordInput } from "@/components/component/PasswordInput";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -81,13 +82,14 @@ export default function LoginForm({
           </div>
           <div className="grid gap-2">
             <Label htmlFor="password">Password</Label>
-            <Input
+            {/* <Input
               type="password"
               name="password"
               id="password"
               required
               className="input input-bordered w-full"
-            />
+            /> */}
+            <PasswordInput name="password" id="password" required />
           </div>
         </CardContent>
         <CardFooter className="flex-col gap-2">
